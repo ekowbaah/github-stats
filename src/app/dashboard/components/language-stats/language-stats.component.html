@@ -1,0 +1,30 @@
+
+<div class="flex self-center px-4 py-4">
+<tui-pie-chart
+    class="h-full"
+    [value]="value"
+    [hintContent]="hintContent"
+    [(activeItemIndex)]="activeItemIndex"
+></tui-pie-chart>
+<ng-template
+#hintContent
+let-index
+>
+<div>{{(value[index]/sum) | percent}} </div>
+<div>{{labels[index]}}</div>
+</ng-template>
+  </div>
+
+<div class="legend flex self-center px-4">
+<tui-legend-item
+  *ngFor="let label of labels; let index = index"
+  size="s"
+  class="item"
+  [color]="getColor(index)"
+  [text]="label"
+  [active]="isItemActive(index)"
+  (tuiHoveredChange)="onHover(index, $event)"
+>
+</tui-legend-item>
+</div>
+

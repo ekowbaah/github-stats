@@ -1,0 +1,35 @@
+{
+  "/login/**": {
+  "target": "https://github.com/",
+  "secure": false,
+  "changeOrigin": true,
+  "logLevel": "debug"
+  },
+  "/user/**": {
+    "target": "https://api.github.com/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+    },
+    "/users/**": {
+      "target": "https://api.github.com/",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+      },
+      "/repos/**": {
+        "target": "https://api.github.com/",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+        },
+        "/search/**": {
+          "target": "https://api.github.com/",
+          "secure": false,
+          "changeOrigin": true,
+          "logLevel": "debug"
+          }
+}
+
+
+

@@ -1,0 +1,19 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
+.header {
+    display: flex;
+    width: 100%;
+    height: 12.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+
+    :host-context(tui-root._mobile) & {
+        flex-direction: column;
+    }
+}
