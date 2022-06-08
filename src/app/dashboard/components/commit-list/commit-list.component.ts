@@ -14,7 +14,7 @@ import { CommitInfo } from 'src/app/shared/models/commits.model';
   styleUrls: ['./commit-list.component.scss'],
 })
 export class CommitListComponent implements OnChanges {
-  @Input() commitList?: CommitInfo[];
+  @Input() commitList?: CommitInfo[] | null;
   commitDates: string[] = [];
   dateDictionary: { [key: string]: any } = {};
 
@@ -24,7 +24,6 @@ export class CommitListComponent implements OnChanges {
       console.log(changes['commitList'].currentValue)
     }
   }
-
   sortCommitsByDate(commitList: CommitInfo[]) {
     let dateDict: any = {};
     commitList?.forEach((commit) => {

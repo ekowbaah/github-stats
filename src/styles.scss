@@ -5,3 +5,52 @@
 @import 'tailwindcss/utilities';
 /* You can add global styles to this file, and also import other style files */
 @import '~@taiga-ui/core/styles/taiga-ui-local';
+
+.section-default-constraints {
+  padding-left: 1.625rem;
+  padding-right: 1.625rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 640px) {
+
+  .section-default-constraints {
+    padding-left: 3.25rem;
+    padding-right: 3.25rem;
+  }
+
+
+}
+
+@media (min-width: 768px) {
+
+
+  .md\:section-default-constraints {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  .section-default-constraints {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+
+}
+
+@media (min-width: 1280px) {
+
+  .section-default-constraints {
+    padding-left: 6.5rem;
+    padding-right: 6.5rem;
+    max-width: 1280px;
+  }
+
+  .xl\:section-default-constraints {
+    padding-left: 6.5rem;
+    padding-right: 6.5rem;
+    max-width: 1280px;
+  }
+
+}

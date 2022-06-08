@@ -3,11 +3,9 @@ import {
   Component,
   Inject,
   Injector,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import {
-  PolymorpheusComponent,
   PolymorpheusContent,
 } from '@tinkoff/ng-polymorpheus';
 import {
@@ -15,8 +13,6 @@ import {
   TuiDialogService,
   TuiDialogSize,
 } from '@taiga-ui/core';
-
-import { GithubInfoModalComponent } from 'src/app/dashboard/components/github-info-modal/github-info-modal.component';
 import { Router } from '@angular/router';
 import { AppRoutes } from 'src/app/core/utils/app-routes';
 
@@ -26,14 +22,7 @@ import { AppRoutes } from 'src/app/core/utils/app-routes';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements AfterViewInit {
-  private readonly dialog = this.dialogService.open<number>(
-    new PolymorpheusComponent(GithubInfoModalComponent, this.injector),
-    {
-      data: 237,
-      dismissible: true,
-      label: 'Heading',
-    }
-  );
+
   @ViewChild('header') header!: PolymorpheusContent;
   @ViewChild('content') content!: PolymorpheusContent<TuiDialogContext>;
 
@@ -59,9 +48,11 @@ export class SignInComponent implements AfterViewInit {
   ): void {
     this.dialogService
       .open(content, {
-        label: 'Hi welcome!',
+        label: 'Hi welcome to my fun github app!',
         header,
         size,
+        closeable: false,
+        dismissible: false,
       })
       .subscribe();
   }

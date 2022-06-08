@@ -1,46 +1,51 @@
 <div class="flex flex-col h-screen">
-<div class="w-1/4 py-5 ml-5">
-  <tui-select [formControl]="repoFormControl" [valueContent]="test">
-    Please select a repo
-    <input
-        tuiTextfield
-        placeholder="Repositories"
-    />
-    <tui-data-list-wrapper
-        *tuiDataList
-        [items]="repos"
-        [itemContent]="content"
-    ></tui-data-list-wrapper>
-</tui-select>
-<ng-template
-  #content
-  let-data
->
+  <div class="w-1/4 py-5 ml-5">
+    <tui-select [formControl]="repoFormControl" [valueContent]="test">
+      Please select a repo
+      <input tuiTextfield placeholder="Repositories" />
+      <tui-data-list-wrapper *tuiDataList [items]="repos$ | async" [itemContent]="content"></tui-data-list-wrapper>
+    </tui-select>
+    <ng-template #content let-data>
+      <div>
+        <div>{{data.name}}</div>
+      </div>
+    </ng-template>
+    <ng-template #test let-data>
+      <div>
+        <div>{{data.name}}</div>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="flex flex-row h-full gap-x-8 items-center">
+    <div>
+      <div *ngIf="commitActivities$ | async as commitActivities" class="flex flex-row  bg-gray-200">
+        <app-commit-stats [commitActivities]="commitActivities"></app-commit-stats>
+      </div>
+      <!-- <div *ngIf="commitStatsLoading">
+        <ngx-skeleton-loader count="5" appearance="circle"></ngx-skeleton-loader>
+      </div> -->
+    </div>
+
+
+    <div>
+      <div *ngIf="repoLanguages$ | async as repoLanguage" class="flex flex-row justify-center w-full bg-gray-200  h-[400px]">
+        <app-language-stats [repoLanguages]="repoLanguage"></app-language-stats>
+      </div>
+      <!-- <div *ngIf="commitStatsLoading">
+        <ngx-skeleton-loader count="5" appearance="circle"></ngx-skeleton-loader>
+      </div> -->
+    </div>
+
+
+  </div>
   <div>
-      <div>{{data.name}}</div>
-  </div>
-</ng-template>
-<ng-template
-#test
-let-data
->
-<div>
-  <div>{{data.name}}</div>
-</div>
-</ng-template>
-</div>
-
-
-  <div class="flex flex-row h-full justify-evenly">
-    <div *ngIf="commitActivities.length>0" class="flex flex-row self-center bg-gray-200">
-    <app-commit-stats [commitActivities]="commitActivities"></app-commit-stats>
-  </div>
-  <div *ngIf="(repoLanguages | json) != '{}'" class="flex flex-row self-center bg-gray-200">
-    <app-language-stats [repoLanguages]="repoLanguages"></app-language-stats>
+    <div *ngIf="commitList$ | async as commitList" class=" flex flex-row justify-center pt-5">
+      <app-commit-list class="w-full" [commitList]="commitList"></app-commit-list>
+    </div>
+    <!-- <div *ngIf="commitListLoading">
+      <ngx-skeleton-loader count="5" appearance="circle"></ngx-skeleton-loader>
+    </div> -->
   </div>
 
-  </div>
-  <div *ngIf="commitList.length>0" class=" flex flex-row h-full justify-center pt-5">
-    <app-commit-list [commitList]="commitList"></app-commit-list>
-  </div>
 </div>

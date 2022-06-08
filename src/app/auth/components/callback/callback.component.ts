@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from '../../services/auth-service.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-callback',
   templateUrl: './callback.component.html',
   styleUrls: ['./callback.component.scss'],
 })
-export class CallbackComponent implements OnInit {
+export class CallbackComponent implements OnInit, OnDestroy {
+  subscription?: Subscription;
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -20,8 +22,11 @@ export class CallbackComponent implements OnInit {
   }
 
   getToken(): void {
-    this.authService.getToken(this.getCodeFromUrl()).subscribe((res) => {
-      console.log(res);
-    });
+    this.subscription = this.authService
+      .getToken(this.getCodeFromUrl())
+      .subscribe();
+  }
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

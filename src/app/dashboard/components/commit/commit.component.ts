@@ -7,9 +7,6 @@ import { CommitInfo } from 'src/app/shared/models/commits.model';
   templateUrl: './commit.component.html',
   styleUrls: ['./commit.component.scss'],
 })
-export class CommitComponent implements OnInit {
+export class CommitComponent {
   @Input() commit!: CommitInfo;
-  constructor() {}
-
-  ngOnInit(): void {}
 }

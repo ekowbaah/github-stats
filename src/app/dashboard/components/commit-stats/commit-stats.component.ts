@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { CommitActivity } from 'src/app/shared/models/commits.model';
+import { Months } from 'src/app/core/utils/constants';
 
 @Component({
   selector: 'app-commit-stats',
@@ -8,7 +9,7 @@ import { CommitActivity } from 'src/app/shared/models/commits.model';
   styleUrls: ['./commit-stats.component.scss'],
 })
 export class CommitStatsComponent implements OnChanges {
-  @Input() commitActivities!: CommitActivity[];
+  @Input() commitActivities!: CommitActivity[] | null;
   barChartValues: { name: string; value: number }[] = [];
   showXAxis = true;
   showYAxis = true;
@@ -18,20 +19,7 @@ export class CommitStatsComponent implements OnChanges {
   xAxisLabel = 'Month';
   showYAxisLabel = true;
   yAxisLabel = 'Commit count';
-  months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
+  months = Months;
   view: [number, number] = [700, 400];
   labelsY = ['0', '50'];
   ngOnChanges(changes: SimpleChanges): void {
@@ -42,7 +30,7 @@ export class CommitStatsComponent implements OnChanges {
 
   getBarChartData() {
     let barValues: number[] = Array(12).fill(0);
-    this.commitActivities?.forEach((commit: any) => {
+    this.commitActivities?.forEach((commit: CommitActivity) => {
       const month = this.getMonthFromUnixTimestamp(commit.week);
       barValues[month] += commit.total;
     });

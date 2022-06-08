@@ -8,7 +8,7 @@ import { sum } from '@taiga-ui/cdk';
   styleUrls: ['./language-stats.component.scss'],
 })
 export class LanguageStatsComponent implements OnChanges {
-  @Input() repoLanguages?: any;
+  @Input() repoLanguages?: any | null;
   pieChartValues: number[] = [];
   pieChartLabels: string[] = [];
   activeItemIndex = NaN;

@@ -12,14 +12,17 @@ export class DashboardService {
   constructor(private http: HttpClient) {}
 
   getCommitActivity(userNameAndRepo: string): Observable<CommitActivity[]> {
-    return this.http.get<CommitActivity[]>(`repos/${userNameAndRepo}/stats/commit_activity`);
+    return this.http.get<CommitActivity[]>(
+      `repos/${userNameAndRepo}/stats/commit_activity`
+    );
   }
 
   getCommits(userNameAndRepo: string): Observable<CommitInfo[]> {
     return this.http.get<CommitInfo[]>(`repos/${userNameAndRepo}/commits`);
   }
-  getRepoLanguages(userNameAndRepo: string): Observable<any> {
-    return this.http.get<any>(`repos/${userNameAndRepo}/languages`);
+
+  getRepoLanguages(userNameAndRepo: string): Observable<Object> {
+    return this.http.get<Object>(`repos/${userNameAndRepo}/languages`);
   }
 
   getAllRepos(): Observable<Repo[]> {

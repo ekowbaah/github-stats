@@ -1,6 +1,21 @@
-import { CommitActivity, CommitInfo } from 'src/app/shared/models/commits.model';
+import {
+  CommitActivity,
+  CommitInfo,
+} from 'src/app/shared/models/commits.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, interval } from 'rxjs';
+import {
+  EMPTY,
+  Observable,
+  Subscription,
+  interval,
+  map,
+  of,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 
 import { DashboardService } from '../../services/dashboard-service.service';
@@ -15,102 +30,115 @@ import { User } from 'src/app/shared/models/user.model';
 })
 export class StatsComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
-  user?: User;
-  repos: Repo[] = [];
-  commitActivities: CommitActivity[] = [];
-  commitList: CommitInfo[] = [];
-  repoLanguages: any = {};
-  repoFormControl = new FormControl();
+
+  repoFormControl: FormControl = new FormControl();
+
+  user: User = JSON.parse(localStorage.getItem('user')!);
+
+  repos$: Observable<Repo[]> = this.dashboardService
+    .getAllRepos()
+    .pipe(shareReplay(1));
+
+  repoLanguages$ = this.getRepoLanguages();
+
+  commitActivities$ = this.getCommitActivities();
+
+  commitList$ = this.getCommitList();
+
   intervalInMilliseconds = 900000;
-  timer = interval(this.intervalInMilliseconds);
+  // timer = interval(this.intervalInMilliseconds);
+
   constructor(
     private dashboardService: DashboardService,
     private alertService: TuiAlertService
   ) {}
 
   ngOnInit(): void {
-    this.setUser();
-    this.getRepos();
-    this.subscriptions.push(
-      this.repoFormControl.valueChanges.subscribe((res) => {
-        let userNameAndRepo = res.full_name;
-        this.fetchData(userNameAndRepo);
-        this.startTimer();
-      })
-    );
+    // this.subscriptions.push(
+    //   this.repoFormControl.valueChanges.subscribe((res) => {
+    //     console.log('form changes', res);
+    //     // let userNameAndRepo = res.full_name;
+    //     // this.fetchData(userNameAndRepo);
+    //     // this.startTimer();
+    //   })
+    // );
   }
 
   fetchData(userNameAndRepo: string) {
     this.reset();
-    this.getCommitList(userNameAndRepo);
-    this.getRepoLanguages(userNameAndRepo);
-    this.getCommitActivities(userNameAndRepo);
+    // this.getCommitList(userNameAndRepo);
+    // this.getRepoLanguages(userNameAndRepo);
+    // this.getCommitActivities(userNameAndRepo);
   }
 
   startTimer() {
-    this.subscriptions.push(
-      this.timer.subscribe(() => {
-        if (this.repoFormControl.value) {
-          this.fetchData(this.repoFormControl.value.full_name);
+    // this.subscriptions.push(
+    //   this.timer.subscribe(() => {
+    //     if (this.repoFormControl.value) {
+    //       this.fetchData(this.repoFormControl.value.full_name);
+    //     }
+    //   })
+    // );
+    // return interval(this.intervalInMilliseconds).pipe();
+  }
+
+  getRepoLanguages() {
+    return this.repoFormControl.valueChanges.pipe(
+      switchMap((value) => {
+        if (value) {
+          return this.dashboardService.getRepoLanguages(value.full_name);
+        } else {
+          return EMPTY;
+        }
+      }),
+      tap((res) => {
+        if (res && Object.keys(res)?.length > 0) {
+          return res;
+        } else {
+          this.showErrorAlert('languages');
+          return null;
         }
       })
     );
   }
 
-  setUser() {
-    this.user = JSON.parse(localStorage.getItem('user')!);
-  }
-  getRepos() {
-    this.subscriptions.push(
-      this.dashboardService.getAllRepos().subscribe((res) => {
-        this.repos = res;
+  getCommitActivities() {
+    return this.repoFormControl?.valueChanges.pipe(
+      switchMap((value) => {
+        if (value) {
+          return this.dashboardService.getCommitActivity(value.full_name);
+        } else {
+          return EMPTY;
+        }
+      }),
+      tap((res) => {
+        if (res && res?.length > 0) {
+          return res;
+        } else {
+          this.showErrorAlert('commits');
+          return null;
+        }
       })
     );
   }
 
-  getRepoLanguages(userNameAndRepo: string) {
-    this.subscriptions.push(
-      this.dashboardService
-        .getRepoLanguages(userNameAndRepo)
-        .subscribe((res) => {
-          if (JSON.stringify(res) !== '{}') {
-            this.repoLanguages = res;
-          } else {
-            this.showErrorAlert('languages');
-          }
-        })
-    );
-  }
-
-  getCommitActivities(userNameAndRepo: string) {
-    this.subscriptions.push(
-      this.dashboardService
-        .getCommitActivity(userNameAndRepo)
-        .subscribe((res) => {
-          if (res?.length > 0) {
-            this.commitActivities = res;
-          } else {
-            this.showErrorAlert('commits');
-          }
-        })
-    );
-  }
-
-  getCommitList(userNameAndRepo: string) {
-    this.subscriptions.push(
-      this.dashboardService
-        .getCommits(userNameAndRepo)
-        .subscribe((res: CommitInfo[]) => {
-          if (res?.length > 0) {
-            if (res.length >= 5) {
-              this.commitList = res.slice(0, 5);
-            } else {
-              this.commitList = res;
-            }
-          } else {
-            this.showErrorAlert('commits');
-          }
-        })
+  getCommitList() {
+    return this.repoFormControl?.valueChanges.pipe(
+      switchMap((value) => {
+        if (value) {
+          return this.dashboardService.getCommits(value.full_name);
+        } else {
+          return EMPTY;
+        }
+      }),
+      tap((res: CommitInfo[]) => {
+        if (res && res?.length > 0) {
+          return res.slice(0, 5);
+        } else {
+          this.showErrorAlert('commits');
+          return null;
+        }
+      })
     );
   }
 
@@ -123,9 +151,13 @@ export class StatsComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.commitActivities = [];
-    this.commitList = [];
-    this.repoLanguages = {};
+    // this.commitActivities = [];
+    // this.commitList = [];
+    // this.repoLanguages = {};
+  }
+
+  private triggerTimerAfterValueChanges() {
+    this.repoFormControl.valueChanges.pipe();
   }
 
   ngOnDestroy(): void {

@@ -78,8 +78,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-
-            "proxyConfig": "proxy-config.json" },
+            "proxyConfig": "proxy-config.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "github-stats:build:production"
@@ -112,6 +112,37 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "github-stats:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "github-stats:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "github-stats:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "github-stats:serve:production"
+            }
           }
         }
       }
