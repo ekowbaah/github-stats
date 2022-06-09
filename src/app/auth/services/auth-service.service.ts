@@ -19,8 +19,9 @@ export class AuthService {
 
   getToken(code: string) {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
       Accept: 'application/json',
+      Host: 'api.github.com',
+
     });
 
     const queryParams = {
