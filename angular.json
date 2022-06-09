@@ -30,6 +30,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/_redirects",
+              "src/vercel.json",
               {
                 "glob": "**/*",
                 "input": "node_modules/@taiga-ui/icons/src",
