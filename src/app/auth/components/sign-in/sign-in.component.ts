@@ -5,9 +5,7 @@ import {
   Injector,
   ViewChild,
 } from '@angular/core';
-import {
-  PolymorpheusContent,
-} from '@tinkoff/ng-polymorpheus';
+import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import {
   TuiDialogContext,
   TuiDialogService,
@@ -15,6 +13,7 @@ import {
 } from '@taiga-ui/core';
 import { Router } from '@angular/router';
 import { AppRoutes } from 'src/app/core/utils/app-routes';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sign-in',
@@ -22,7 +21,6 @@ import { AppRoutes } from 'src/app/core/utils/app-routes';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements AfterViewInit {
-
   @ViewChild('header') header!: PolymorpheusContent;
   @ViewChild('content') content!: PolymorpheusContent<TuiDialogContext>;
 
@@ -58,7 +56,6 @@ export class SignInComponent implements AfterViewInit {
   }
 
   goToGitubSignIn() {
-    window.location.href =
-      'https://github.com/login/oauth/authorize?client_id=d31daf692001dd08152b';
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${environment.cliend_id}`;
   }
 }
