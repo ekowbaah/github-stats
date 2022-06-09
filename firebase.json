@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "public": "dist/github-stats",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "redirects": [ {
+      "source": "/login",
+      "destination": "https://github.com/",
+      "type": 301
+    } ]
+  }
+}
