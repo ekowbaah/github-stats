@@ -25,7 +25,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
  ##  User guide
  
 
- - On the sign in page, click on the 'Sign in with github button' to sign in via github. This will take you to github where you can sign in with your github credentials.
+ - On the sign in page, click on the 'Sign in with github' button to sign in via github. This will take you to github where you can sign in with your github credentials.
  - After sign in, you will be redirected to the app dashboard. In the selector on the top left of the page, you will see a list of your public repositories. Select a repository to see stats about that repository.
  -In the commits list, click on the commit name to open the commit in github.
 
