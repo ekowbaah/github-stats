@@ -24,7 +24,7 @@ export class AuthService {
     });
 
     const queryParams = {
-      client_id: environment.cliend_id,
+      client_id: environment.client_id,
       client_secret: environment.client_secret,
       code,
     };

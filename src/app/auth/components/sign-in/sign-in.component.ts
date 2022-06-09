@@ -56,6 +56,6 @@ export class SignInComponent implements AfterViewInit {
   }
 
   goToGitubSignIn() {
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${environment.cliend_id}`;
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${environment.client_id}`;
   }
 }

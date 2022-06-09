@@ -4,8 +4,8 @@
 
 export const environment: any = {
   production: false,
-  cliend_id: 'd31daf692001dd08152b',
-  client_secret: 'f21f7e55ac3527a00929c9a8c26b75f3a5d99027',
+  client_id: 'dc7c4ac7128a5d2fdc4c',
+  client_secret: '415770e78ac371d5ffa0f6dabb1dc5c4840dbbd7',
   oauthBaseUrl: 'login/oauth',
 };
 
