@@ -15,7 +15,7 @@
     "redirects": [ {
       "source": "/login/**",
       "destination": "https://github.com/",
-      "type": 3012
+      "type": 302
     } ]
   }
 }
