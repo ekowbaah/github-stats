@@ -133,7 +133,7 @@ export class StatsComponent implements OnInit, OnDestroy {
       }),
       tap((res: CommitInfo[]) => {
         if (res && res?.length > 0) {
-          return res.slice(0, 5);
+          return res;
         } else {
           this.showErrorAlert('commits');
           return null;

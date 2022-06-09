@@ -1,6 +1,6 @@
 <div class="flex flex-col h-screen">
   <div class="w-1/4 py-5 ml-5">
-    <tui-select [formControl]="repoFormControl" [valueContent]="test">
+    <tui-select id ="repo-select"[formControl]="repoFormControl" [valueContent]="test">
       Please select a repo
       <input tuiTextfield placeholder="Repositories" />
       <tui-data-list-wrapper *tuiDataList [items]="repos$ | async" [itemContent]="content"></tui-data-list-wrapper>
@@ -19,7 +19,7 @@
 
   <div class="flex flex-row h-full gap-x-8 items-center">
     <div>
-      <div *ngIf="commitActivities$ | async as commitActivities" class="flex flex-row  bg-gray-200">
+      <div id="commit-stats" *ngIf="commitActivities$ | async as commitActivities" class="flex flex-row  bg-gray-200">
         <app-commit-stats [commitActivities]="commitActivities"></app-commit-stats>
       </div>
       <!-- <div *ngIf="commitStatsLoading">
@@ -29,7 +29,7 @@
 
 
     <div>
-      <div *ngIf="repoLanguages$ | async as repoLanguage" class="flex flex-row justify-center w-full bg-gray-200  h-[400px]">
+      <div id="repo-languages" *ngIf="repoLanguages$ | async as repoLanguage" class="flex flex-row justify-center w-full bg-gray-200  h-[400px]">
         <app-language-stats [repoLanguages]="repoLanguage"></app-language-stats>
       </div>
       <!-- <div *ngIf="commitStatsLoading">
@@ -40,7 +40,7 @@
 
   </div>
   <div>
-    <div *ngIf="commitList$ | async as commitList" class=" flex flex-row justify-center pt-5">
+    <div id="commit-list" *ngIf="commitList$ | async as commitList" class=" flex flex-row justify-center pt-5">
       <app-commit-list class="w-full" [commitList]="commitList"></app-commit-list>
     </div>
     <!-- <div *ngIf="commitListLoading">

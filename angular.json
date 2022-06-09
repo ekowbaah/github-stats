@@ -115,7 +115,7 @@
           }
         },
         "cypress-run": {
-          "builder": "@cypress/schematic:cypress",
+          "builder": "@briebug/cypress-schematic:cypress",
           "options": {
             "devServerTarget": "github-stats:serve"
           },
@@ -126,14 +126,20 @@
           }
         },
         "cypress-open": {
-          "builder": "@cypress/schematic:cypress",
+          "builder": "@briebug/cypress-schematic:cypress",
           "options": {
+            "devServerTarget": "github-stats:serve",
             "watch": true,
             "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "github-stats:serve:production"
+            }
           }
         },
         "e2e": {
-          "builder": "@cypress/schematic:cypress",
+          "builder": "@briebug/cypress-schematic:cypress",
           "options": {
             "devServerTarget": "github-stats:serve",
             "watch": true,
