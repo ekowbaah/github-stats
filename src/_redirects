@@ -1,4 +1,4 @@
-/* /index.html 200
-/login/*  https://github.com/:splat 200
-/user/*   https://api.github.com/:splat 200
-/repos/*  https://api.github.com/:splat 200
+/_ /index.html 200
+/login_ https://github.com/:splat 200
+/user* https://api.github.com/:splat 200
+/repos* https://api.github.com/:splat 200
