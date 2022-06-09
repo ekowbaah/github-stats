@@ -20,6 +20,7 @@ export class CommitListComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['commitList']) {
+      //get last 5 commits
       this.sortCommitsByDate(changes['commitList'].currentValue.slice(0, 5));
       console.log(changes['commitList'].currentValue)
     }
