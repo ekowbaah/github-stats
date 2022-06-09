@@ -11,12 +11,6 @@
     "changeOrigin": true,
     "logLevel": "debug"
     },
-    "/users/**": {
-      "target": "https://api.github.com/",
-      "secure": false,
-      "changeOrigin": true,
-      "logLevel": "debug"
-      },
       "/repos/**": {
         "target": "https://api.github.com/",
         "secure": false,
