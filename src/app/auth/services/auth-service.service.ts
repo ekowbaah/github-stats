@@ -16,16 +16,21 @@ export class AuthService {
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService
   ) {}
+  getRandomString() {
+    return Math.random().toString(36).substring(7);
+  }
 
   getToken(code: string) {
     let headers = new HttpHeaders({
       Accept: 'application/json',
     });
-
+    let r = (Math.random() + 1).toString(36).substring(7);
     const queryParams = {
       client_id: environment.client_id,
       client_secret: environment.client_secret,
       code,
+      redirect_uri: environment.redirect_uri,
+      state: this.getRandomString(),
     };
     return this.http
       .post(
