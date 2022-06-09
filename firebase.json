@@ -14,7 +14,7 @@
     ],
     "redirects": [ {
       "source": "/login/:post*",
-      "destination": "https://github.com/:post",
+      "destination": "https://github.com/login/:post",
       "type": 302
     } ]
   }
