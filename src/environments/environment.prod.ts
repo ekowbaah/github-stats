@@ -3,4 +3,5 @@ export const environment = {
   client_id: 'd31daf692001dd08152b',
   client_secret: 'f21f7e55ac3527a00929c9a8c26b75f3a5d99027',
   oauthBaseUrl: 'login/oauth',
+  redirect_uri: 'https://gilded-eclair-1d99c1.netlify.app/auth/callback',
 };

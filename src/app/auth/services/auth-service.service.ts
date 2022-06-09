@@ -27,6 +27,7 @@ export class AuthService {
       client_id: environment.client_id,
       client_secret: environment.client_secret,
       code,
+      redirect_uri:environment.redirect_uri
     };
     return this.http
       .post(
