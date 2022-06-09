@@ -13,8 +13,8 @@
       }
     ],
     "redirects": [ {
-      "source": "/login/**",
-      "destination": "https://github.com/",
+      "source": "/login/:post*",
+      "destination": "https://github.com/:post",
       "type": 302
     } ]
   }
