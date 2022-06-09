@@ -33,4 +33,4 @@ jobs:
 
       - name: Deploy
         if: success()
-        run: aws s3 sync ./dist/angular-github-actions-amazon-s3 s3://ekow-angular-github-actions-amazon-s3
+        run: aws s3 sync ./dist/github-stats s3://ekow-angular-github-actions-amazon-s3
