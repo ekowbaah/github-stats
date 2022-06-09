@@ -13,9 +13,9 @@
       }
     ],
     "redirects": [ {
-      "source": "/login",
+      "source": "/login/**",
       "destination": "https://github.com/",
-      "type": 301
+      "type": 3012
     } ]
   }
 }
