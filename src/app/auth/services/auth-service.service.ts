@@ -20,15 +20,12 @@ export class AuthService {
   getToken(code: string) {
     let headers = new HttpHeaders({
       Accept: 'application/json',
-      Host: 'api.github.com',
-
     });
 
     const queryParams = {
       client_id: environment.client_id,
       client_secret: environment.client_secret,
       code,
-      redirect_uri:environment.redirect_uri
     };
     return this.http
       .post(
