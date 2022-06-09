@@ -8,6 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "e2e": "ng e2e",
+    "build:prod": "ng build --configuration production",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
