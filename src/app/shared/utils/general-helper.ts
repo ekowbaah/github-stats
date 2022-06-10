@@ -1,4 +1,4 @@
-import { Observable, map } from 'rxjs';
+import { EMPTY, Observable, map } from 'rxjs';
 
 import { GitStatsResponse } from '@dashboard/models/general-response';
 
@@ -11,7 +11,7 @@ export class GeneralHelpers {
             throw new Error(errorMessageVariant);
           }
           return sourceResponse;
-        })
+        }),
       );
     };
 

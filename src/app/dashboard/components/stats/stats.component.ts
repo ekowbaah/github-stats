@@ -3,6 +3,7 @@ import {
   catchError,
   combineLatest,
   of,
+  retry,
   shareReplay,
   switchMap,
   timer,
@@ -49,7 +50,8 @@ export class StatsComponent {
       catchError((error) => {
         this.showErrorAlert(error.message);
         return of(null);
-      })
+      }),
+      retry()
     );
   }
 
