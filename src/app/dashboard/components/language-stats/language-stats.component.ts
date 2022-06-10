@@ -1,4 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+} from '@angular/core';
 
 import { sum } from '@taiga-ui/cdk';
 
@@ -6,9 +10,13 @@ import { sum } from '@taiga-ui/cdk';
   selector: 'app-language-stats',
   templateUrl: './language-stats.component.html',
   styleUrls: ['./language-stats.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LanguageStatsComponent implements OnChanges {
-  @Input() repoLanguages?: any | null;
+export class LanguageStatsComponent {
+  @Input() set repoLanguages(repoLanguages: any | null) {
+    this.getDataForPieChart(repoLanguages);
+  }
+
   pieChartValues: number[] = [];
   pieChartLabels: string[] = [];
   activeItemIndex = NaN;
@@ -16,13 +24,6 @@ export class LanguageStatsComponent implements OnChanges {
   labels: string[] = [];
   sum!: number;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['repoLanguages']) {
-      console.log(changes['repoLanguages'].currentValue);
-      this.getDataForPieChart();
-      this.drawPieChart();
-    }
-  }
   isItemActive(index: number): boolean {
     return this.activeItemIndex === index;
   }
@@ -34,16 +35,21 @@ export class LanguageStatsComponent implements OnChanges {
   getColor(index: number): string {
     return `var(--tui-chart-${index})`;
   }
-  getDataForPieChart() {
+
+  getDataForPieChart(repoLanguages: any | null) {
+    this.value = [];
+    this.labels = [];
+    this.sum = 0;
     this.pieChartLabels = [];
     this.pieChartValues = [];
-    for (let property in this.repoLanguages) {
-      if (!this.repoLanguages.hasOwnProperty(property)) {
+    for (let property in repoLanguages) {
+      if (!repoLanguages.hasOwnProperty(property)) {
         continue;
       }
       this.pieChartLabels.push(property);
-      this.pieChartValues.push(this.repoLanguages[property]);
+      this.pieChartValues.push(repoLanguages[property]);
     }
+    this.drawPieChart();
   }
 
   drawPieChart() {

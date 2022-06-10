@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { CommitInfo } from 'src/app/shared/models/commits.model';
+import { CommitInfo } from '@shared/models/commits.model';
 
 @Component({
   selector: 'app-commit',

@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppRoutes } from '../core/utils/app-routes';
+import { AppRoutes } from '@core/utils/app-routes';
 import { CallbackComponent } from './components/callback/callback.component';
 import { NgModule } from '@angular/core';
 import { SignInComponent } from './components/sign-in/sign-in.component';

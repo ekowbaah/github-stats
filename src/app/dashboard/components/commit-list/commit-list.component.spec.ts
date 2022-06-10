@@ -8,9 +8,8 @@ describe('CommitListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CommitListComponent ]
-    })
-    .compileComponents();
+      declarations: [CommitListComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CommitListComponent);
     component = fixture.componentInstance;

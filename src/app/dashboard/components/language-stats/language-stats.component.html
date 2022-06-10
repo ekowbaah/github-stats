@@ -1,34 +1,28 @@
 <div class="flex flex-col">
-
-
-<div class="flex self-center py-4">
-  <tui-pie-chart
+  <div class="flex self-center py-4">
+    <tui-pie-chart
       size="xl"
       [value]="value"
       [hintContent]="hintContent"
       [(activeItemIndex)]="activeItemIndex"
-  ></tui-pie-chart>
-  <ng-template
-  #hintContent
-  let-index
-  >
-  <div>{{(value[index]/sum) | percent}} </div>
-  <div>{{labels[index]}}</div>
-  </ng-template>
-    </div>
-
-  <div class="flex self-center py-4 px-4">
-  <tui-legend-item
-    *ngFor="let label of labels; let index = index"
-    size="s"
-    class="item"
-    [color]="getColor(index)"
-    [text]="label"
-    [active]="isItemActive(index)"
-    (tuiHoveredChange)="onHover(index, $event)"
-  >
-  </tui-legend-item>
+    >
+    </tui-pie-chart>
+    <ng-template #hintContent let-index>
+      <div>{{ value[index] / sum | percent }}</div>
+      <div>{{ labels[index] }}</div>
+    </ng-template>
   </div>
 
+  <div class="flex self-center py-4 px-4">
+    <tui-legend-item
+      *ngFor="let label of labels; let index = index"
+      size="s"
+      class="item"
+      [color]="getColor(index)"
+      [text]="label"
+      [active]="isItemActive(index)"
+      (tuiHoveredChange)="onHover(index, $event)"
+    >
+    </tui-legend-item>
+  </div>
 </div>
-

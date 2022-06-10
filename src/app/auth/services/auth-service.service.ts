@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs';
 import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
-import { AppRoutes } from 'src/app/core/utils/app-routes';
+import { AppRoutes } from '@core/utils/app-routes';
 
 @Injectable({
   providedIn: 'root',

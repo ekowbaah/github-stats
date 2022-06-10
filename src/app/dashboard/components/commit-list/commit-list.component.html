@@ -9,18 +9,20 @@
         <div
           class="list-item-indicator w-8 h-8 rounded-full shrink-0 border-8 bg-neutral-400 border-zinc-50"
         ></div>
-        <p class="list-item-title font-medium py-1 px-2" >Commits on {{date|date}}</p>
+        <p class="list-item-title font-medium py-1 px-2">
+          Commits on {{ date | date }}
+        </p>
       </div>
       <div class="list-item-description p-2 ml-12 text-neutral-500">
-        <div class="mb-3 last-of-type:mb-0" *ngFor="let commit of dateDictionary[date]">
-          <app-commit [commit]="commit" ></app-commit>
+        <div
+          class="mb-3 last-of-type:mb-0"
+          *ngFor="let commit of dateDictionary[date]"
+        >
+          <app-commit [commit]="commit"></app-commit>
         </div>
 
-    <div>
-
-    </div>
+        <div></div>
       </div>
     </li>
-
   </ul>
 </div>

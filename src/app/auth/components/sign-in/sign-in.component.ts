@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Inject,
-  Injector,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
 import {
   TuiDialogContext,
@@ -12,8 +6,8 @@ import {
   TuiDialogSize,
 } from '@taiga-ui/core';
 import { Router } from '@angular/router';
-import { AppRoutes } from 'src/app/core/utils/app-routes';
-import { environment } from 'src/environments/environment';
+import { environment } from '@environments/environment';
+import { AppRoutes } from '@core/utils/app-routes';
 
 @Component({
   selector: 'app-sign-in',
@@ -26,8 +20,7 @@ export class SignInComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    @Inject(Injector) private readonly injector: Injector
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
   ) {}
   ngAfterViewInit(): void {
     if (!localStorage.getItem('access_token')) {

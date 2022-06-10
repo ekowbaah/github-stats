@@ -8,9 +8,8 @@ describe('LanguageStatsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LanguageStatsComponent ]
-    })
-    .compileComponents();
+      declarations: [LanguageStatsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LanguageStatsComponent);
     component = fixture.componentInstance;

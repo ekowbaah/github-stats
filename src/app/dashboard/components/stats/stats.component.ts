@@ -1,168 +1,101 @@
 import {
-  CommitActivity,
-  CommitInfo,
-} from 'src/app/shared/models/commits.model';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  EMPTY,
   Observable,
-  Subscription,
-  interval,
-  map,
+  catchError,
+  combineLatest,
   of,
   shareReplay,
-  startWith,
   switchMap,
-  tap,
-  withLatestFrom,
+  timer,
 } from 'rxjs';
 import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 
-import { DashboardService } from '../../services/dashboard-service.service';
+import { Component } from '@angular/core';
+import { DashboardService } from '@dashboard/services/dashboard-service.service';
 import { FormControl } from '@angular/forms';
-import { Repo } from 'src/app/shared/models/repos.model';
-import { User } from 'src/app/shared/models/user.model';
+import { GeneralHelpers } from '@shared/utils/general-helper';
+import { Repo } from '@shared/models/repos.model';
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss'],
 })
-export class StatsComponent implements OnInit, OnDestroy {
-  subscriptions: Subscription[] = [];
-
+export class StatsComponent {
   repoFormControl: FormControl = new FormControl();
-
-  user: User = JSON.parse(localStorage.getItem('user')!);
 
   repos$: Observable<Repo[]> = this.dashboardService
     .getAllRepos()
     .pipe(shareReplay(1));
 
-  repoLanguages$ = this.getRepoLanguages();
+  repoLanguages$ = this.getRepoLanguages().pipe(shareReplay(1));
 
-  commitActivities$ = this.getCommitActivities();
+  commitActivities$ = this.getCommitActivities().pipe(shareReplay(1));
 
-  commitList$ = this.getCommitList();
+  commitList$ = this.getCommitList().pipe(shareReplay(1));
 
-  intervalInMilliseconds = 900000;
-  // timer = interval(this.intervalInMilliseconds);
+  isLoading$ = this.dashboardService.isLoading$;
 
   constructor(
     private dashboardService: DashboardService,
     private alertService: TuiAlertService
   ) {}
 
-  ngOnInit(): void {
-    // this.subscriptions.push(
-    //   this.repoFormControl.valueChanges.subscribe((res) => {
-    //     console.log('form changes', res);
-    //     // let userNameAndRepo = res.full_name;
-    //     // this.fetchData(userNameAndRepo);
-    //     // this.startTimer();
-    //   })
-    // );
-  }
-
-  fetchData(userNameAndRepo: string) {
-    this.reset();
-    // this.getCommitList(userNameAndRepo);
-    // this.getRepoLanguages(userNameAndRepo);
-    // this.getCommitActivities(userNameAndRepo);
-  }
-
-  startTimer() {
-    // this.subscriptions.push(
-    //   this.timer.subscribe(() => {
-    //     if (this.repoFormControl.value) {
-    //       this.fetchData(this.repoFormControl.value.full_name);
-    //     }
-    //   })
-    // );
-    // return interval(this.intervalInMilliseconds).pipe();
-  }
-
   getRepoLanguages() {
-    return this.repoFormControl.valueChanges.pipe(
-      switchMap((value) => {
-        if (value) {
-          return this.dashboardService.getRepoLanguages(value.full_name);
-        } else {
-          return EMPTY;
-        }
+    return this.triggerTimerAfterValueChanges().pipe(
+      switchMap(([value]) => {
+        return this.dashboardService.getRepoLanguages(value.full_name);
       }),
-      tap((res) => {
-        if (res && Object.keys(res)?.length > 0) {
-          return res;
-        } else {
-          this.showErrorAlert('languages');
-          return null;
-        }
+      GeneralHelpers.handleValidResponse('repository languages'),
+      catchError((error) => {
+        this.showErrorAlert(error.message);
+        return of(null);
       })
     );
   }
 
   getCommitActivities() {
-    return this.repoFormControl?.valueChanges.pipe(
-      switchMap((value) => {
-        if (value) {
-          return this.dashboardService.getCommitActivity(value.full_name);
-        } else {
-          return EMPTY;
-        }
+    return this.triggerTimerAfterValueChanges().pipe(
+      switchMap(([value]) => {
+        return this.dashboardService.getCommitActivity(value.full_name);
       }),
-      tap((res) => {
-        if (res && res?.length > 0) {
-          return res;
-        } else {
-          this.showErrorAlert('commits');
-          return null;
-        }
+      GeneralHelpers.handleValidResponse('commit activities'),
+      catchError((error) => {
+        this.showErrorAlert(error.message);
+        return of(null);
       })
     );
   }
 
   getCommitList() {
-    return this.repoFormControl?.valueChanges.pipe(
-      switchMap((value) => {
-        if (value) {
-          return this.dashboardService.getCommits(value.full_name);
-        } else {
-          return EMPTY;
-        }
+    return this.triggerTimerAfterValueChanges().pipe(
+      switchMap(([value]) => {
+        return this.dashboardService.getCommits(value.full_name);
       }),
-      tap((res: CommitInfo[]) => {
-        if (res && res?.length > 0) {
-          return res;
-        } else {
-          this.showErrorAlert('commits');
-          return null;
-        }
+      GeneralHelpers.handleValidResponse('commits'),
+      catchError((error) => {
+        this.showErrorAlert(error.message);
+        return of(null);
       })
     );
   }
 
-  showErrorAlert(variant: string) {
-    this.alertService.open(`No ${variant} found in the last year`, {
-      label: `No ${variant} found`,
-      autoClose: true,
-      status: TuiNotification.Error,
-    });
+  showErrorAlert(messageVariant: string) {
+    this.alertService
+      .open(`Sorry no ${messageVariant} were found`, {
+        label: `No ${messageVariant}  found`,
+        autoClose: true,
+        status: TuiNotification.Error,
+      })
+      .subscribe();
   }
 
-  reset() {
-    // this.commitActivities = [];
-    // this.commitList = [];
-    // this.repoLanguages = {};
-  }
+  private triggerTimerAfterValueChanges(): Observable<[Repo, number]> {
+    const start = 0;
+    const delay = 90000;
 
-  private triggerTimerAfterValueChanges() {
-    this.repoFormControl.valueChanges.pipe();
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions?.forEach((subscription) => {
-      subscription.unsubscribe();
-    });
+    return combineLatest([
+      this.repoFormControl.valueChanges,
+      timer(start, delay),
+    ]);
   }
 }

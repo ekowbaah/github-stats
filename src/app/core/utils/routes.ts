@@ -1,7 +1,7 @@
 import { AppRoutes } from './app-routes';
-import { EmptyComponent } from 'src/app/layouts/pages/empty.component';
-import { MainContentComponent } from 'src/app/layouts/pages/main-content.component';
-import { PageNotFoundComponent } from 'src/app/layouts/pages/page-not-found.component';
+import { EmptyComponent } from '@layouts/pages/empty.component';
+import { MainContentComponent } from '@layouts/pages/main-content.component';
+import { PageNotFoundComponent } from '@layouts/pages/page-not-found.component';
 import { Route } from '@angular/router';
 
 export const APP_ROUTES: Route[] = [
@@ -9,13 +9,13 @@ export const APP_ROUTES: Route[] = [
     path: AppRoutes.AUTH,
     component: EmptyComponent,
     loadChildren: () =>
-      import('../../auth/auth.module').then((m) => m.AuthModule),
+      import('@auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: AppRoutes.HOME,
     component: MainContentComponent,
     loadChildren: () =>
-      import('../../dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('@dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
     path: '',
