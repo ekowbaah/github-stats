@@ -77,12 +77,10 @@ export class AuthService {
   }
 
   protected getQueryString(filter: any): string {
-    const queryString = Object.keys(filter)
+   return Object.keys(filter)
       .map((key) => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(filter[key]);
       })
       .join('&');
-
-    return queryString;
   }
 }
