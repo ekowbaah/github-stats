@@ -1,4 +1,5 @@
 import {
+  EMPTY,
   Observable,
   catchError,
   combineLatest,
@@ -42,17 +43,23 @@ export class StatsComponent {
   ) {}
 
   getRepoLanguages() {
-    return this.triggerTimerAfterValueChanges().pipe(
-      switchMap(([value]) => {
-        return this.dashboardService.getRepoLanguages(value.full_name);
-      }),
-      GeneralHelpers.handleValidResponse('repository languages'),
-      catchError((error) => {
-        this.showErrorAlert(error.message);
-        return of(null);
-      }),
-      retry()
-    );
+    return this.triggerTimerAfterValueChanges()
+      .pipe(
+        switchMap(([value]) => {
+          return this.dashboardService.getRepoLanguages(value.full_name);
+        }),
+        GeneralHelpers.handleValidResponse('repository languages'),
+        catchError((error) => {
+          this.showErrorAlert(error.message);
+          return of(null);
+        }),
+        retry()
+      )
+      .pipe(
+        catchError(() => {
+          return EMPTY;
+        })
+      );
   }
 
   getCommitActivities() {
