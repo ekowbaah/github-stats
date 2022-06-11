@@ -31,9 +31,7 @@ export class AuthService {
     };
     return this.http
       .post(
-        `${environment.oauthBaseUrl}/access_token?${this.getQueryString(
-          queryParams
-        )}`,
+        `${environment.oauthBaseUrl}?${this.getQueryString(queryParams)}`,
         null,
         { headers }
       )
@@ -77,7 +75,7 @@ export class AuthService {
   }
 
   protected getQueryString(filter: any): string {
-   return Object.keys(filter)
+    return Object.keys(filter)
       .map((key) => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(filter[key]);
       })
