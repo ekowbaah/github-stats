@@ -1,9 +1,17 @@
-<div class="flex flex-col h-screen">
+<div class="flex flex-col">
   <div class="w-1/4 py-5 ml-5">
-    <tui-select id="repo-select" [formControl]="repoFormControl" [valueContent]="test">
+    <tui-select
+      id="repo-select"
+      [formControl]="repoFormControl"
+      [valueContent]="test"
+    >
       Please select a repo
       <input tuiTextfield placeholder="Repositories" />
-      <tui-data-list-wrapper *tuiDataList [items]="repos$ | async" [itemContent]="content"></tui-data-list-wrapper>
+      <tui-data-list-wrapper
+        *tuiDataList
+        [items]="repos$ | async"
+        [itemContent]="content"
+      ></tui-data-list-wrapper>
     </tui-select>
     <ng-template #content let-data>
       <div>
@@ -21,31 +29,55 @@
     <div class="flex flex-row h-full gap-x-8 items-center">
       <div *ngIf="commitActivities$ | async as commitActivities">
         <div id="commit-stats" class="flex flex-row bg-gray-200">
-          <app-commit-stats [commitActivities]="commitActivities"></app-commit-stats>
+          <app-commit-stats
+            [commitActivities]="commitActivities"
+          ></app-commit-stats>
         </div>
       </div>
 
       <div *ngIf="repoLanguages$ | async as repoLanguages">
-        <div id="repo-languages" class="flex flex-row justify-center w-full bg-gray-200 h-[400px]">
-          <app-language-stats [repoLanguages]="repoLanguages"></app-language-stats>
+        <div
+          id="repo-languages"
+          class="flex flex-row justify-center w-full bg-gray-200 h-[400px]"
+        >
+          <app-language-stats
+            [repoLanguages]="repoLanguages"
+          ></app-language-stats>
         </div>
       </div>
     </div>
 
-    <div *ngIf="commitList$ |async as commitList">
+    <div *ngIf="commitList$ | async as commitList">
       <div id="commit-list" class="flex flex-row justify-center pt-5">
-        <app-commit-list class="w-full" [commitList]="commitList"></app-commit-list>
+        <app-commit-list
+          class="w-full"
+          [commitList]="commitList"
+        ></app-commit-list>
       </div>
     </div>
   </ng-container>
 
   <ng-template #loading>
-    <p *ngFor="let item of [].constructor(100)" class="text-xl">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate minima
-      nisi tempora provident sequi vitae dolorem minus ratione! Aspernatur
-      dolorem natus, corporis magnam placeat quidem assumenda ipsa reiciendis
-      debitis fuga?
-    </p>
+    <div class="grid grid-cols-2 gap-5">
+      <div>
+        <ngx-skeleton-loader
+          [theme]="{ height: '350px' }"
+          count="1"
+          appearance="line"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="mx-auto">
+        <ngx-skeleton-loader
+          [theme]="{ height: '350px', width: '350px' }"
+          count="1"
+          appearance="circle"
+        ></ngx-skeleton-loader>
+      </div>
+    </div>
+    <br />
+    <br />
+    <div class="w-full">
+      <ngx-skeleton-loader count="10" appearance="line"></ngx-skeleton-loader>
+    </div>
   </ng-template>
-
 </div>
