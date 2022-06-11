@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { environment } from '@environments/environment';
 import { AppRoutes } from '@core/utils/app-routes';
+import { AuthService } from '@auth/services/auth-service.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,7 +21,8 @@ export class SignInComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService
+    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    private authService: AuthService
   ) {}
   ngAfterViewInit(): void {
     if (!localStorage.getItem('access_token')) {
@@ -49,6 +51,7 @@ export class SignInComponent implements AfterViewInit {
   }
 
   goToGitubSignIn() {
+    // this.authService.login().subscribe()
     window.location.href = `https://github.com/login/oauth/authorize?client_id=${environment.client_id}`;
   }
 }

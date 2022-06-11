@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -24,17 +24,13 @@ export class AuthService {
     let headers = new HttpHeaders({
       Accept: 'application/json',
     });
-    const queryParams = {
+    const params = {
       client_id: environment.client_id,
       client_secret: environment.client_secret,
       code,
     };
     return this.http
-      .post(
-        `${environment.oauthBaseUrl}?${this.getQueryString(queryParams)}`,
-        null,
-        { headers }
-      )
+      .post(`${environment.oauthBaseUrl}/access_token`, params, { headers })
       .pipe(
         map((response: any) => {
           if (response.access_token) {
@@ -65,8 +61,13 @@ export class AuthService {
       );
   }
 
+  // login() {
+  //   const params = new HttpParams().append('client_id', environment.client_id);
+  //   return this.http.get(`${environment.oauthBaseUrl}/authorize?`, { params });
+  // }
+
   getUserInfo() {
-    this.http.get('user').subscribe((response: any) => {
+    this.http.get('login').subscribe((response: any) => {
       localStorage.setItem('user', JSON.stringify(response));
       this.router.navigateByUrl(`${AppRoutes.HOME}/${AppRoutes.DASHBOARD}`, {
         replaceUrl: true,

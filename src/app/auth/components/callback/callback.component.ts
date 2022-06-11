@@ -18,7 +18,7 @@ export class CallbackComponent implements OnInit, OnDestroy {
   }
 
   getCodeFromUrl(): string {
-    return this.router.url.split('code=')[1];
+    return this.router.url.split('=')[1];
   }
 
   getToken(): void {
