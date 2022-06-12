@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { CommitActivity } from '@shared/models/commits.model';
 import { Months } from '@core/utils/constants';
@@ -14,7 +14,7 @@ export class CommitStatsComponent {
   @Input() set commitActivities(commitActivities: CommitActivity[] | null) {
     if (commitActivities) this.getBarChartData(commitActivities);
   }
-  
+
   showXAxis = true;
   showYAxis = true;
   gradient = false;

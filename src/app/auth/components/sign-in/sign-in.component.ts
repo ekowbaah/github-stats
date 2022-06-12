@@ -6,7 +6,6 @@ import {
   TuiDialogSize,
 } from '@taiga-ui/core';
 import { Router } from '@angular/router';
-import { environment } from '@environments/environment';
 import { AppRoutes } from '@core/utils/app-routes';
 import { AuthService } from '@auth/services/auth-service.service';
 
@@ -51,7 +50,6 @@ export class SignInComponent implements AfterViewInit {
   }
 
   goToGitubSignIn() {
-    // this.authService.login().subscribe()
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${environment.client_id}`;
+    window.open(this.authService.authorize(), '_self');
   }
 }

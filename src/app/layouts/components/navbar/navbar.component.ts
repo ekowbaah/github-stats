@@ -12,6 +12,5 @@ export class NavbarComponent implements AfterViewInit {
   constructor() {}
   ngAfterViewInit(): void {
     this.user = JSON.parse(localStorage.getItem('user')!);
-   
   }
 }

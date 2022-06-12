@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 import { AppRoutes } from '@core/utils/app-routes';
 
@@ -16,9 +16,6 @@ export class AuthService {
     @Inject(TuiAlertService)
     private readonly alertService: TuiAlertService
   ) {}
-  getRandomString() {
-    return Math.random().toString(36).substring(7);
-  }
 
   getToken(code: string) {
     let headers = new HttpHeaders({
@@ -32,54 +29,53 @@ export class AuthService {
     return this.http
       .post(`${environment.oauthBaseUrl}/access_token`, params, { headers })
       .pipe(
-        map((response: any) => {
+        switchMap((response: any) => {
           if (response.access_token) {
-            localStorage.setItem('access_token', response['access_token']);
-            this.alertService
-              .open('Login was successful', {
-                label: 'Login Success!',
-                autoClose: true,
-                status: TuiNotification.Success,
-              })
-              .subscribe();
-            this.getUserInfo();
+            return this.onLoginSuccess(response);
           } else {
-            this.alertService
-              .open('Please try again later', {
-                label: 'Login Failed!',
-                autoClose: true,
-                status: TuiNotification.Error,
-              })
-              .subscribe();
-
-            this.router.navigateByUrl(`${AppRoutes.AUTH}/${AppRoutes.SIGNIN}`, {
-              replaceUrl: true,
-            });
+            this.onLoginFailure();
           }
           return response;
         })
       );
   }
 
-  // login() {
-  //   const params = new HttpParams().append('client_id', environment.client_id);
-  //   return this.http.get(`${environment.oauthBaseUrl}/authorize?`, { params });
-  // }
-
-  getUserInfo() {
-    this.http.get('login').subscribe((response: any) => {
-      localStorage.setItem('user', JSON.stringify(response));
-      this.router.navigateByUrl(`${AppRoutes.HOME}/${AppRoutes.DASHBOARD}`, {
-        replaceUrl: true,
-      });
-    });
+  authorize() {
+    return `${environment.oauthBaseUrl}/authorize?client_id=${environment.client_id}`;
   }
 
-  protected getQueryString(filter: any): string {
-    return Object.keys(filter)
-      .map((key) => {
-        return encodeURIComponent(key) + '=' + encodeURIComponent(filter[key]);
+  getUserInfo() {
+    return this.http.get('user');
+  }
+
+  private onLoginSuccess(response?: any) {
+    localStorage.setItem('access_token', response['access_token']);
+    this.alertService
+      .open('Login was successful', {
+        label: 'Login Success!',
+        autoClose: true,
+        status: TuiNotification.Success,
       })
-      .join('&');
+      .subscribe();
+    return this.getUserInfo().pipe(
+      map((userResponse: any) => {
+        localStorage.setItem('user', JSON.stringify(userResponse));
+        this.router.navigateByUrl(`${AppRoutes.HOME}/${AppRoutes.DASHBOARD}`, {
+          replaceUrl: true,
+        });
+      })
+    );
+  }
+  private onLoginFailure() {
+    this.alertService
+      .open('Please try again later', {
+        label: 'Login Failed!',
+        autoClose: true,
+        status: TuiNotification.Error,
+      })
+      .subscribe();
+    this.router.navigateByUrl(`${AppRoutes.AUTH}/${AppRoutes.SIGNIN}`, {
+      replaceUrl: true,
+    });
   }
 }

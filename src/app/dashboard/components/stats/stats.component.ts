@@ -44,7 +44,7 @@ export class StatsComponent {
         switchMap(([value]) => {
           return this.dashboardService.getRepoLanguages(value.full_name);
         }),
-        this.handleValidResponse('repos')
+        this.handleValidResponse('repo languages')
       )
       .pipe(shareReplay(1));
   }

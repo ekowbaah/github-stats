@@ -1,27 +1,36 @@
 <div class="flex flex-row">
   <div class="flex flex-wrap justify-center">
     <div class="w-16 h-16 px-4">
-      <img [src]="commit?.author?.avatar_url" alt="Avatar url of author" class="shadow rounded-full max-w-full h-auto align-middle border-none" />
+      <img
+        [src]="commit?.author?.avatar_url"
+        alt="Avatar url of author"
+        class="shadow rounded-full max-w-full h-auto align-middle border-none"
+      />
     </div>
   </div>
-<div class="flex flex-col">
-<div>
-  <a id="commit-message"class="hover:text-blue-600" [href]="commit?.html_url" target="_blank">
-    <p class="text-sm font-bold ">{{commit?.commit?.message}}</p>
-  </a>
-</div>
+  <div class="flex flex-col">
+    <div>
+      <a
+        id="commit-message"
+        class="hover:text-blue-600"
+        [href]="commit?.html_url"
+        target="_blank"
+      >
+        <p class="text-sm font-bold">{{ commit?.commit?.message }}</p>
+      </a>
+    </div>
 
-<div>
-  <p>
-    Authored by
-    <span class="text-gray-500">
-      {{commit?.commit?.author?.name}}
-    </span>
-    on
-    <span class="text-gray-500">
-      {{commit?.commit?.author?.date | date}}
-    </span>
-  </p>
-</div>
-</div>
+    <div>
+      <p>
+        Authored by
+        <span class="text-gray-500">
+          {{ commit?.commit?.author?.name }}
+        </span>
+        on
+        <span class="text-gray-500">
+          {{ commit?.commit?.author?.date | date }}
+        </span>
+      </p>
+    </div>
+  </div>
 </div>
