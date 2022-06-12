@@ -9,7 +9,7 @@ import { User } from 'src/app/shared/models/user.model';
 })
 export class NavbarComponent implements AfterViewInit {
   user?: User;
-  constructor() {}
+  
   ngAfterViewInit(): void {
     this.user = JSON.parse(localStorage.getItem('user')!);
   }

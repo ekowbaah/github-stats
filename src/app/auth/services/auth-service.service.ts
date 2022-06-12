@@ -66,6 +66,7 @@ export class AuthService {
       })
     );
   }
+  
   private onLoginFailure() {
     this.alertService
       .open('Please try again later', {
