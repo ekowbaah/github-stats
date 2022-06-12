@@ -1,6 +1,6 @@
 const testUser = {
   userName: 'ekowcypresstest',
-  token: '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',
+  token: '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',
 };
 
 beforeEach(() => {
