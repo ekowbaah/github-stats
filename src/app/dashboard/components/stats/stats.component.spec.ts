@@ -21,4 +21,17 @@ describe('StatsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+  it('repoForm should be invalid after touched', () => {
+    let form = component.repoFormControl;
+    form.markAsTouched();
+    expect(form.valid).toBeFalsy();
+  });
+
+  it('repoForm should be valid after setting value', () => {
+    let form = component.repoFormControl;
+    form.setValue({ id: 123, name: 'test' });
+    expect(form.valid).toBeTruthy();
+  });
 });

@@ -1,3 +1,4 @@
+import { FormControl, Validators } from '@angular/forms';
 import {
   Observable,
   combineLatest,
@@ -10,7 +11,6 @@ import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
 
 import { Component } from '@angular/core';
 import { DashboardService } from '@dashboard/services/dashboard-service.service';
-import { FormControl } from '@angular/forms';
 import { GeneralHelpers } from '@shared/utils/general-helper';
 import { GitStatsResponse } from '@dashboard/models/general-response';
 import { Repo } from '@shared/models/repos.model';
@@ -21,7 +21,7 @@ import { Repo } from '@shared/models/repos.model';
   styleUrls: ['./stats.component.scss'],
 })
 export class StatsComponent {
-  repoFormControl: FormControl = new FormControl();
+  repoFormControl: FormControl = new FormControl(null,[Validators.required]);
 
   repos$ = this.getRepos();
 
@@ -53,6 +53,7 @@ export class StatsComponent {
     return this.triggerTimerAfterValueChanges()
       .pipe(
         switchMap(([value]) => {
+          console.log(value)
           return this.dashboardService.getCommitActivity(value.full_name);
         }),
         this.handleValidResponse('commit activities')
@@ -75,7 +76,7 @@ export class StatsComponent {
     return this.dashboardService.getAllRepos().pipe(shareReplay(1));
   }
 
-  showErrorAlert(messageVariant: string) {
+  showErrorAlert(messageVariant: string):void{
     this.alertService
       .open(`Sorry no ${messageVariant} were found`, {
         label: `No ${messageVariant}  found`,
